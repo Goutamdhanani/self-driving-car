@@ -77,11 +77,9 @@ class Level{
                 sum+=level.inputs[j]*level.weights[j][i];
             }
 
-            if(sum>level.biases[i]){
-                level.outputs[i]=1;
-            }else{
-                level.outputs[i]=0;
-            } 
+            // Changed from binary (0/1) to sigmoid-like activation
+            // This provides smoother control transitions
+            level.outputs[i]=1/(1+Math.exp(-sum+level.biases[i]));
         }
 
         return level.outputs;
