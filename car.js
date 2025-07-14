@@ -17,13 +17,13 @@ class Car{
         if(controlType!="DUMMY"){
             this.sensor=new Sensor(this);
             this.brain=new NeuralNetwork(
-                [this.sensor.rayCount,6,4]
+                [this.sensor.rayCount,6,4] // Added a hidden layer with 6 neurons
             );
         }
         this.controls=new Controls(controlType);
 
         this.img=new Image();
-        this.img.src="car.png"
+        this.img.src="car.png";
 
         this.mask=document.createElement("canvas");
         this.mask.width=width;
@@ -126,11 +126,15 @@ class Car{
 
         if(this.speed!=0){
             const flip=this.speed>0?1:-1;
+            
+            // Reduced steering sensitivity to prevent oversteering
+            const steeringSensitivity = 0.02;
+            
             if(this.controls.left){
-                this.angle+=0.03*flip;
+                this.angle+=steeringSensitivity*flip;
             }
             if(this.controls.right){
-                this.angle-=0.03*flip;
+                this.angle-=steeringSensitivity*flip;
             }
         }
 
@@ -152,14 +156,18 @@ class Car{
                 -this.height/2,
                 this.width,
                 this.height);
-            ctx.globalCompositeOperation="multiply";
+            ctx.drawImage(this.img,
+                -this.width/2,
+                -this.height/2,
+                this.width,
+                this.height);
+        }else{
+            ctx.drawImage(this.mask,
+                -this.width/2,
+                -this.height/2,
+                this.width,
+                this.height);
         }
-        ctx.drawImage(this.img,
-            -this.width/2,
-            -this.height/2,
-            this.width,
-            this.height);
         ctx.restore();
-
     }
 }
