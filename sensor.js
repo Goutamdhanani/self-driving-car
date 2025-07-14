@@ -1,9 +1,9 @@
 class Sensor{
     constructor(car){
         this.car=car;
-        this.rayCount=5;
-        this.rayLength=150;
-        this.raySpread=Math.PI/2;
+        this.rayCount=7;  // Increased from 5 to 7 rays
+        this.rayLength=180;  // Increased from 150 for earlier detection
+        this.raySpread=Math.PI/1.8;  // Wider spread for better peripheral vision
 
         this.rays=[];
         this.readings=[];
